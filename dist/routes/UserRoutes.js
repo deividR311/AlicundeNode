@@ -1,0 +1,21 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const authenticator_1 = __importDefault(require("../middlewares/authenticator"));
+const modelValidator_1 = __importDefault(require("../middlewares/modelValidator"));
+const UserService_1 = __importDefault(require("../services/UserService"));
+const userRoutes = express_1.Router();
+const validator = new modelValidator_1.default();
+const userService = new UserService_1.default();
+userRoutes.get('/profile', authenticator_1.default, userService.getProfile);
+userRoutes.post('/', authenticator_1.default, userService.getUsers);
+userRoutes.get('/cards', authenticator_1.default, userService.getCards);
+userRoutes.get('/bankaccounts', authenticator_1.default, userService.getBankAccounts);
+userRoutes.get('/adventures', authenticator_1.default, userService.getAdventures);
+userRoutes.get('/:iduser', authenticator_1.default, userService.getUserById);
+userRoutes.get('/:iduser/adventures', authenticator_1.default, userService.getAdventureByUser);
+userRoutes.post('/users', authenticator_1.default, userService.getUsersBySearch);
+exports.default = userRoutes;

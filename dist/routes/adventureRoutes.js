@@ -1,0 +1,20 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const authenticator_1 = __importDefault(require("../middlewares/authenticator"));
+const modelValidator_1 = __importDefault(require("../middlewares/modelValidator"));
+const adventureService_1 = __importDefault(require("../services/adventureService"));
+const adventureRoutes = express_1.Router();
+const adventureValidator = new modelValidator_1.default();
+const adventureService = new adventureService_1.default();
+adventureRoutes.get('/getAll', authenticator_1.default, adventureService.getAdventures);
+adventureRoutes.post('/create', [authenticator_1.default, adventureValidator.adventure], adventureService.createAdventure);
+adventureRoutes.put('/update', authenticator_1.default, adventureService.updateAdventure);
+adventureRoutes.delete('/:idadventure', authenticator_1.default, adventureService.deleteAdventure);
+adventureRoutes.get('/:idadventure', authenticator_1.default, adventureService.getAdventure);
+adventureRoutes.get('/:idadventure/info', authenticator_1.default, adventureService.getAdventureWithInfo);
+adventureRoutes.put('/:idadventure/tags', authenticator_1.default, adventureService.setTags);
+exports.default = adventureRoutes;
